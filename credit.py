@@ -17,7 +17,7 @@ def get_response(host, port):
         request = "GET / HTTP/1.0\r\nHost: " + host + "\r\n\r\n"
 
         # the request is sent to the connected server.
-        s.send(request.encode())
+        s.sendall(request.encode())
 
         # server will respond with data. since the data will be received in chunks in bytes, we initialize an empty byte string to accumulate the response.
         response = b""
@@ -43,12 +43,6 @@ def get_response(host, port):
     finally:
         if s is not None:
             s.close()
-
-
-def separate_response(response):
-    # since header and body are separted by two newlines,  "\r\n\r\n" is used to split the response into two parts. 
-    headers, body = response.split("\r\n\r\n", 1)  #split only 1 time. 
-    return headers, body
 
 
 def extract_status(headers):
@@ -82,17 +76,19 @@ def separate_headers(header_lines):
     return header_dict
 
 
-#main method 
+#main
 if __name__ == "__main__":
+    host = "www.google.com"
+    port = 80
     # call get_response with the host "www.google.com" and port 80 get the response.
-    response = get_response("www.google.com", 80)
+    response = get_response(host, port)
 
     #if response returns None, it fails to connect to the host. 
     if response is None:
         print("Failed to get response.")
     else:
         #if there is response, it will be first separated into header and body. 
-        headers, body = separate_response(response)
+        headers, body = response.split("\r\n\r\n", 1) 
 
         #header will be further extracted to get respective varaibles. 
         http_version, response_code, response_message, header_lines = extract_status(headers)
