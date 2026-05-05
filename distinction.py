@@ -96,7 +96,7 @@ if __name__ == "__main__":
     response = fetch_url(host, port, path)
 
     # separate the response into headers and body.
-    headers, body = split_http_response(response)
+    headers, body = response.split(b"\r\n\r\n", 1)
 
     # get the response status code.
     status_code = get_status_code(headers)
@@ -127,7 +127,7 @@ if __name__ == "__main__":
             img_response = fetch_url(img_host, 80, img_path)
 
             # separate image response into headers and body.
-            img_headers, img_body = split_http_response(img_response)
+            img_headers, img_body = img_response.split(b"\r\n\r\n", 1)
 
             if get_status_code(img_headers) == 200:
                 # save the image body into a file.

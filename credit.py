@@ -78,9 +78,9 @@ def separate_headers(header_lines):
 
 #main
 if __name__ == "__main__":
-    host = "www.google.com"
+    host = "www.test.com"
     port = 80
-    # call get_response with the host "www.google.com" and port 80 get the response.
+    # call get_response with the host "www.test.com" and port 80 get the response.
     response = get_response(host, port)
 
     #if response returns None, it fails to connect to the host. 
